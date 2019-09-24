@@ -41,4 +41,4 @@
 ## Additional Notes
 * TODO: Pull information for a specific club using club's id.
 * TODO: Error handling for when user is not logged in.
-* TODO: DevOps/Server using Digital Ocean droplet or Heroku
+* TODO: DevOps/Server using Digital Ocean droplet or Heroku.
