@@ -1,5 +1,5 @@
 # Penn Labs Server Challenge
-Remember to **document your work** in this `README.md` file! Feel free to delete these installation instructions in your fork of this repository.
+----
 
 ## Installation
 1. Clone this repository. 
