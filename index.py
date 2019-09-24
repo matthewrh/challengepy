@@ -218,6 +218,19 @@ def add_club():
     else:
         return 'invalid request'
 
+@app.route('/api/clubs/filter', methods=['POST'])
+def filter_clubs():
+    if request.json:
+        clubs_list = clubs.find()
+        clubs_shortlist = []
+        for i in clubs_list:
+            for j in request.json['keywords']:
+                if j.lower() in i['description'].lower():
+                    clubs_shortlist.append(i)
+        return json_util.dumps(clubs_shortlist)
+    else:
+        return 'invalid request'
+
 @app.route('/api/user/<uname>/', methods=['GET'])
 def get_user(uname):
     pub = User(uname, '')
