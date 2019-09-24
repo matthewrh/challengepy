@@ -5,16 +5,16 @@
 1. Clone this repository. 
 2. `cd` into the cloned repository.
 3. Install `pipenv`
-  * `brew install pipenv` if you're on a Mac.
-  * `pip install --user --upgrade pipenv` for most other machines.
+    * `brew install pipenv` if you're on a Mac.
+    * `pip install --user --upgrade pipenv` for most other machines.
 4. Install packages using `pipenv install`.
 5. Install `mongodb`
-  * `brew tap mongodb/brew`
-  * `brew install mongodb-community@4.2`
+    * `brew tap mongodb/brew`
+    * `brew install mongodb-community@4.2`
 6. Open a new terminal window and run mongoDB with `mongod --config /usr/local/etc/mongod.conf`.
 7. Return to your original terminal and run with `pipenv run python3 index.py`.
-  * If this is your first time running, the mongoDB database and collections will automatically be created.
-  * Additionally, the app will scrape for existing clubs and generate a user for Jennifer if the collections are empty.
+    * If this is your first time running, the mongoDB database and collections will automatically be created.
+    * Additionally, the app will scrape for existing clubs and generate a user for Jennifer if the collections are empty.
 
 ## Data Models
 * Clubs have names, descriptions, tags, and a favorite counter.
