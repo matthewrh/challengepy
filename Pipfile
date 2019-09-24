@@ -8,7 +8,10 @@ verify_ssl = true
 [packages]
 flask = "*"
 requests = "*"
-beautifulsoup4 = "*"
+bs4 = "*"
+flask-pymongo = "*"
+werkzeug = "*"
+flask-login = "*"
 
 [requires]
 python_version = "3.7"
