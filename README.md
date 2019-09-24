@@ -24,7 +24,7 @@
 * GET `/api/clubs` will return the list of clubs in json.
 * GET `/api/user/<username>` will return a user and their list of favorites.
 * POST `/api/clubs` in json with keys `name`, `description`, and `tags` will add a new club and return a list of clubs.
-    * Example: `{"name": "CIS Club", "description": "CIS Fan Club", "tags": ["CIS", "Fan"]}
+    * Example: `{"name": "CIS Club", "description": "CIS Fan Club", "tags": ["CIS", "Fan"]}`
 * POST `/api/clubs/filter` in json with key `keywords` will return a filtered list of clubs with matching keywords.
     * Example: `{"keywords": ["blockchain", "artificial"]}`
 * POST `/api/account/register` in json with keys `username` and `password` will create a new user. The password will be hashed.
