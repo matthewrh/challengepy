@@ -180,13 +180,13 @@ class User(object):
 
 
 clubs = mongo.db.clubs
-if clubs.count() == 0:
+if clubs.estimated_document_count() == 0:
     data = get_club_list()
     for i in data:
         Club(i['name'], i['description'], i['tags'])
 
 users = mongo.db.users
-if users.count() == 0:
+if users.estimated_document_count() == 0:
     User('jen', 'password123')
 
 @login.user_loader
