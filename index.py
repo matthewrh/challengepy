@@ -349,6 +349,8 @@ users = mongo.db.users
 if users.estimated_document_count() == 0:
     User('jen', 'password123')
 
+admins = ['jen']
+
 @login.user_loader
 def load_user(username):
     u = users.find_one({"username": username})
@@ -370,15 +372,19 @@ def list_clubs():
     return json_util.dumps(clubs_list)
 
 @app.route('/api/clubs', methods=['POST'])
+@login_required
 def add_club():
     if request.json:
-        clubs_list = clubs.find()
-        for i in clubs_list:
-            if i['name'].lower() == request.json['name'].lower():
-                return 'club already exists with this name'
-        Club(request.json['name'], request.json['description'], request.json['tags'], '')
-        clubs_list = clubs.find()
-        return json_util.dumps(clubs_list)
+        if current_user.username in admins:
+            clubs_list = clubs.find()
+            for i in clubs_list:
+                if i['name'].lower() == request.json['name'].lower():
+                    return 'club already exists with this name'
+            Club(request.json['name'], request.json['description'], request.json['tags'], '')
+            clubs_list = clubs.find()
+            return json_util.dumps(clubs_list)
+        else:
+            return 'insufficient permissions'
     else:
         return 'invalid request'
 
@@ -388,20 +394,24 @@ def get_club_info(club_id):
     return json_util.dumps(pub.json())
 
 @app.route('/api/clubs/<club_id>/update', methods=['POST'])
+@login_required
 def update_club(club_id):
     if request.json:
-        eclub = clubs.find_one({"_id": ObjectId(club_id)})
-        nname = eclub['name']
-        ndesc = eclub['description']
-        ntags = eclub['tags']
-        if not nname == request.json['name']:
-            nname = request.json['name']
-        if not ndesc == request.json['description']:
-            ndesc = request.json['description']
-        if not ntags == request.json['tags']:
-            ntags = request.json['tags']
-        pub = Club(nname, ndesc, ntags, club_id)
-        return json_util.dumps(pub.json())
+        if current_user.username in admins:
+            eclub = clubs.find_one({"_id": ObjectId(club_id)})
+            nname = eclub['name']
+            ndesc = eclub['description']
+            ntags = eclub['tags']
+            if not nname == request.json['name']:
+                nname = request.json['name']
+            if not ndesc == request.json['description']:
+                ndesc = request.json['description']
+            if not ntags == request.json['tags']:
+                ntags = request.json['tags']
+            pub = Club(nname, ndesc, ntags, club_id)
+            return json_util.dumps(pub.json())
+        else:
+            return 'insufficient permissions'
     else:
         return 'invalid request'
 

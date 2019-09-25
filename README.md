@@ -1,6 +1,20 @@
 # Penn Labs Server Challenge
 **IMPORTANT:** I've continued this project in my spare time because I really enjoyed working on it and wanted to keep refining and adding features. To view the code that was submitted by the deadline, please go [here](https://github.com/matthewrh/challengepy/tree/80f3ab07d93c505bd8a2596d70c485e7117df06c).
 
+## Information
+This project was completed as a technical challenge submission for my Penn Labs Fall 2019 application. I completed the server challenge (found [here](https://www.notion.so/Server-Challenge-Fall-19-480abf1871fc4a8d9600154816726343)).
+
+### Additional Features
+In addition to the required elements of the challenge, I also implemented the following:
+* User (register, login, logout)
+    * Rationale: This feature adds the benefit of having a built-in method for creating new users. It also allowed me to set permissions for various endpoints based on a user's status.
+    * Notes: Users provide their own password when registering which is then hashed and stored using SHA256 within PBKDF2. The password is checked every time the user logs in. A user session is created upon login which remains active until the user logs out.
+* Friends (Add, remove, accept request, reject request, cancel request, list, request list)
+    * Rationale: Users now have the ability to add friends. By adding a friend, a user is able to view that friend's favorite clubs.
+    * Notes: Adding a friend sends a friend request to the specified user which can be accepted or rejected. Users will not be added to eachother's friend lists unless the request is accepted. The sending user also has the ability to cancel their request. Users can remove friends at any time.
+* Club (info, update, favorite list, filter)
+    * Rationale: Users can now search through the clubs database using keywords, view info for a specific club, and view a list of users who have favorited a specific club. Administrators also have the ability to update information for existing clubs.
+    * Notes: Keywords are searched for independently, meaning not all keywords must be present in a club's description for the club to be included in the results. Administrators are hard-coded by username. For the purpose of this challenge, Jennifer (`jen`) is listed as an administrator.
 
 ## Installation
 1. Clone this repository. 
@@ -15,14 +29,16 @@
 6. Open a new terminal window and run mongoDB with `mongod --config /usr/local/etc/mongod.conf`.
 7. Return to your original terminal and run with `pipenv run python3 index.py`.
     * If this is your first time running, the mongoDB database and collections will automatically be created.
-    * Additionally, the app will scrape for existing clubs and generate a user for Jennifer if the collections are empty.
+    * Additionally, the app will scrape for existing clubs and generate a user for Jennifer (`jen`) if the collections are empty.
 
 ## Data Models
 * Clubs have names, descriptions, tags, and a favorite counter.
-* Users have usernames, hashed passwords, and a list of favorited clubs.
+* Users have usernames, hashed passwords, a list of friends, a list of friend requests, and a list of favorited clubs.
 * All data types have unique identifiers generated automatically by mongoDB.
 
 ## Endpoints
+* [GET `/`](https://github.com/matthewrh/challengepy#get-)
+* [GET `/api`](https://github.com/matthewrh/challengepy#get-api)
 * [GET `/api/clubs`](https://github.com/matthewrh/challengepy#get-apiclubs)
 * [POST `/api/clubs`](https://github.com/matthewrh/challengepy#post-apiclubs)
 * [GET `/api/clubs/{club_id}`](https://github.com/matthewrh/challengepy#get-apiclubsclub_id)
@@ -43,13 +59,20 @@
 
 ## Functionality
 
+### GET `/`
+* Access: Public
+
+### GET `/api`
+* Access: Public
+
 ### GET `/api/clubs`
 * Functionality: Returns a list of clubs in JSON format.
 * Access: Public
 
 ### POST `/api/clubs`
 * Functionality: Creates a new club and returns a list of clubs in JSON format.
-* Access: Public
+* Access: Requires User Login
+    * User must be administrator
 * Content-Type: JSON (`application/json`)
 * Required Keys: `name`, `description`, `tags`
 * Example Request Body:
@@ -67,7 +90,8 @@
 
 ### POST `/api/clubs/{club_id}/update`
 * Functionality: Updates an existing club's name, description, and/or tags and returns the information in JSON format.
-* Access: Public
+* Access: Requires User Login
+    * User must be administrator
 * Content-Type: JSON (`application/json`)
 * Required Keys: `name`, `description`, `tags`
 * Example Request Body:
@@ -210,5 +234,7 @@
 ```
 
 ## Additional Notes
-* TODO: Error handling for when user is not logged in.
+* TODO: Comments: Allow users to add, delete, and view comments for clubs.
+* TODO: Ratings: Allow users to rate and view average ratings for clubs.
+* TODO: Error handling for when client attempts to access a user-only resources while not logged in.
 * TODO: DevOps/Server using Digital Ocean droplet or Heroku.
