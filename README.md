@@ -19,26 +19,175 @@
 ## Data Models
 * Clubs have names, descriptions, tags, and a favorite counter.
 * Users have usernames, hashed passwords, and a list of favorited clubs.
+* All data types have unique identifiers generated automatically by mongoDB.
 
 ## Functionality
-* GET `/api/clubs` will return the list of clubs in json.
-* GET `/api/user/<username>` will return a user and their list of favorites.
-* POST `/api/clubs` in json with keys `name`, `description`, and `tags` will add a new club and return a list of clubs.
-    * Example: `{"name": "CIS Club", "description": "CIS Fan Club", "tags": ["CIS", "Fan"]}`
-* POST `/api/clubs/filter` in json with key `keywords` will return a filtered list of clubs with matching keywords.
-    * Example: `{"keywords": ["blockchain", "artificial"]}`
-* POST `/api/account/register` in json with keys `username` and `password` will create a new user. The password will be hashed.
-    * Example: `{"username": "john", "password": "totallysecurepassword"}`
-* POST `/api/account/login` in json with keys `username` and `password` will log a user in.
-    * Example: `{"username": "jen", "password": "password123"}`
-* POST `/api/account/logout` in json will log a user out.
-    * Example: `{}`
-* POST `/api/favorite/add` in json with keys `username` and `club_id` will add a club to user's favorites and increase the club's total favorites by one. NOTE: Requires user to be logged in.
-    * Example: `{"username": "jen", "club_id": "5d89858e6ed34aa6f41deb44"}`
-* POST `/api/favorite/remove` in json with keys `username` and `club_id` will remove a club from user's favorites and decrease the club's total favorites by one. NOTE: Requires user to be logged in.
-    * Example: `{"username": "jen", "club_id": "5d89858e6ed34aa6f41deb44"}`
+
+### GET `/api/clubs`
+* Functionality: Returns a list of clubs in JSON format.
+* Access: Public
+
+### POST `/api/clubs`
+* Functionality: Creates a new club and returns a list of clubs in JSON format.
+* Access: Public
+* Content-Type: JSON (`application/json`)
+* Required Keys: `name`, `description`, `tags`
+* Example Request Body:
+```javascript
+{
+    "name": "CIS Club",
+    "description": "CIS Fan Club",
+    "tags": ["CIS", "Fan"]
+}
+```
+
+### GET `/api/clubs/{club_id}`
+* Functionality: Returns a club's name, description, tags, and favorite count in JSON format.
+* Access: Public
+
+### POST `/api/clubs/{club_id}/update`
+* Functionality: Updates an existing club's name, description, and/or tags and returns the information in JSON format.
+* Access: Public
+* Content-Type: JSON (`application/json`)
+* Required Keys: `name`, `description`, `tags`
+* Example Request Body:
+```javascript
+{
+    "name": "CIS+EE Club",
+    "description": "CIS+EE Fan Club",
+    "tags": ["CIS", "EE", "Fan"]
+}
+```
+
+### GET `/api/clubs/{club_id}/favorites`
+* Functionality: Returns a list of users that have favorited the club in JSON format.
+* Access: Public
+
+### POST `/api/clubs/filter`
+* Functionality: Returns a filtered list of clubs with descriptions that include at least one keyword in JSON format.
+* Access: Public
+* Content-Type: JSON (`application/json`)
+* Required Keys: `keywords`
+* Example Request Body:
+```javascript
+{
+    "keywords": [
+        "blockchain",
+        "artificial intelligence"
+    ]
+}
+```
+
+### GET `/api/user/{username}`
+* Functionality: Returns a user's username and a list of the names of their favorite clubs in JSON format.
+* Access: Requires User Login
+    * Favorites will also appear if requesting user is friends with {username}
+    * Favorites, friends, and friend requests will also appear if requesting user is {username}
+
+### POST `/api/account/register`
+* Functionality: Creates a new user.
+* Access: Public
+* Content-Type: JSON (`application/json`)
+* Required Keys: `username`, `password`
+* Example Request Body:
+```javascript
+{
+    "username": "john",
+    "password": "totallysecurepassword"
+}
+```
+
+### POST `/api/account/login`
+* Functionality: Logs a user in and creates a user session.
+* Access: Public
+* Content-Type: JSON (`application/json`)
+* Required Keys: `username`, `password`
+* Example Request Body:
+```javascript
+{
+    "username": "jen",
+    "password": "password123"
+}
+```
+
+### POST `/api/account/logout`
+* Functionality: Logs a user out and ends the user session.
+* Access: Public
+
+### GET `/api/friends`
+* Functionality: Returns a list of user's friends as usernames in JSON format.
+* Access: Requires User Login
+
+### GET `/api/friends/requests`
+* Functionality: Returns a list user's incoming and outgoing friend requests as usernames in JSON format.
+* Access: Requires User Login
+
+### POST `/api/friends/requests`
+* Functionality: Accept, reject, or cancel friend requests and update corresponding values.
+* Access: Requires User Login
+* Content-Type: JSON (`application/json`)
+* Required Keys: `username`, `friend_username`, `action` (Accepted Values: `accept`, `reject`, `cancel`)
+* Example Request Body:
+```javascript
+{
+    "username": "jen",
+    "friend_username": "john",
+    "action": "accept"
+}
+```
+
+### POST `/api/friends/add`
+* Functionality: Send a friend request to specified user.
+* Access: Requires User Login
+* Content-Type: JSON (`application/json`)
+* Required Keys: `username`, `friend_username`
+* Example Request Body:
+```javascript
+{
+    "username": "jen",
+    "friend_username": "john"
+}
+```
+
+### POST `/api/friends/remove`
+* Functionality: Remove a specified user from user's friends list.
+* Access: Requires User Login
+* Content-Type: JSON (`application/json`)
+* Required Keys: `username`, `friend_username`
+* Example Request Body:
+```javascript
+{
+    "username": "jen",
+    "friend_username": "john"
+}
+```
+
+### POST `/api/favorite/add`
+* Functionality: Add a club to user's favorites and increase the club's favorite count by one.
+* Access: Requires User Login
+* Content-Type: JSON (`application/json`)
+* Required Keys: `username`, `club_id`
+* Example Request Body:
+```javascript
+{
+    "username": "jen"
+    "club_id": "5d89858e6ed34aa6f41deb44"
+}
+```
+
+### POST `/api/favorite/remove`
+* Functionality: Remove a club from user's favorites and decrease the club's favorite count by one.
+* Access: Requires User Login
+* Content-Type: JSON (`application/json`)
+* Required Keys: `username`, `club_id`
+* Example Request Body:
+```javascript
+{
+    "username": "jen"
+    "club_id": "5d89858e6ed34aa6f41deb44"
+}
+```
 
 ## Additional Notes
-* TODO: Pull information for a specific club using club's id.
 * TODO: Error handling for when user is not logged in.
 * TODO: DevOps/Server using Digital Ocean droplet or Heroku.
