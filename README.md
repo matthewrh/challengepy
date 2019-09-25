@@ -1,5 +1,5 @@
 # Penn Labs Server Challenge
-**IMPORTANT:** I've continued this project in my spare time because I really enjoyed working on it and wanted to keep refining and adding features on my own. To view the code that was submitted by the deadline, please go [here](https://github.com/matthewrh/challengepy/tree/80f3ab07d93c505bd8a2596d70c485e7117df06c).
+**IMPORTANT:** I've continued this project in my spare time because I really enjoyed working on it and wanted to keep refining and adding features. To view the code that was submitted by the deadline, please go [here](https://github.com/matthewrh/challengepy/tree/80f3ab07d93c505bd8a2596d70c485e7117df06c).
 
 
 ## Installation
@@ -21,6 +21,25 @@
 * Clubs have names, descriptions, tags, and a favorite counter.
 * Users have usernames, hashed passwords, and a list of favorited clubs.
 * All data types have unique identifiers generated automatically by mongoDB.
+
+## Endpoints
+* [GET `/api/clubs`](https://github.com/matthewrh/challengepy#get-apiclubs)
+* [POST `/api/clubs`](https://github.com/matthewrh/challengepy#post-apiclubs)
+* [GET `/api/clubs/{club_id}`](https://github.com/matthewrh/challengepy#get-apiclubsclub_id)
+* [POST `/api/clubs/{club_id}/update`](https://github.com/matthewrh/challengepy#post-apiclubsclub_idupdate)
+* [GET `/api/clubs/{club_id}/favorites`](https://github.com/matthewrh/challengepy#get-apiclubsclub_idfavorites)
+* [POST `/api/clubs/filter`](https://github.com/matthewrh/challengepy#post-apiclubsfilter)
+* [GET `/api/user/{username}`](https://github.com/matthewrh/challengepy#get-apiuserusername)
+* [POST `/api/account/register`](https://github.com/matthewrh/challengepy#post-apiaccountregister)
+* [POST `/api/account/login`](https://github.com/matthewrh/challengepy#post-apiaccountlogin)
+* [POST `/api/account/logout`](https://github.com/matthewrh/challengepy#post-apiaccountlogout)
+* [GET `/api/friends`](https://github.com/matthewrh/challengepy#get-apifriends)
+* [GET `/api/friends/requests`](https://github.com/matthewrh/challengepy#get-apifriendsrequests)
+* [POST `/api/friends/requests`](https://github.com/matthewrh/challengepy#post-apifriendsrequests)
+* [POST `/api/friends/add`](https://github.com/matthewrh/challengepy#post-apifriendsadd)
+* [POST `/api/friends/remove`](https://github.com/matthewrh/challengepy#post-apifriendsremove)
+* [POST `/api/favorite/add`](https://github.com/matthewrh/challengepy#post-apifavoriteadd)
+* [POST `/api/favorite/remove`](https://github.com/matthewrh/challengepy#post-apifavoriteremove)
 
 ## Functionality
 
