@@ -1,5 +1,6 @@
 # Penn Labs Server Challenge
-----
+**IMPORTANT:** I've continued this project in my spare time because I really enjoyed working on it and wanted to keep refining and adding features on my own. To view the code that was submitted by the deadline, please go [here](https://github.com/matthewrh/challengepy/tree/80f3ab07d93c505bd8a2596d70c485e7117df06c).
+
 
 ## Installation
 1. Clone this repository. 
@@ -79,10 +80,11 @@
 ```
 
 ### GET `/api/user/{username}`
-* Functionality: Returns a user's username and a list of the names of their favorite clubs in JSON format.
+* Functionality: Returns a user's information in JSON format.
 * Access: Requires User Login
-    * Favorites will also appear if requesting user is friends with {username}
-    * Favorites, friends, and friend requests will also appear if requesting user is {username}
+    * Username will appear if requesting user is not friends with {username}
+    * Username and favorites will appear if requesting user is friends with {username}
+    * Username, favorites, friends, and friend requests will appear if requesting user is {username}
 
 ### POST `/api/account/register`
 * Functionality: Creates a new user.
